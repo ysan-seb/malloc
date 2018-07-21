@@ -12,14 +12,23 @@
 
 #include "malloc.h"
 
-void	*malloc(size_t size)
+void *malloc(size_t size)
 {
-	void	*ptr;
-	size_t	len;
+	void *ptr;
+	size_t len;
 
-	len = getpagesize();
-	if ((ptr = mmap(NULL, len, PROT_READ | PROT_WRITE, MAP_PRIVATE
-					| MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+	if (size == 0)
 		return (NULL);
-	return (ptr);
+	// if (size < TINY)
+		// ptr = g_tslzone.tiny.ptr;
+	// else if (size > TINY && size < SMALL)
+		// ptr = g_tslzone.small.ptr;
+	// else
+		// ptr = g_tslzone.large.ptr;
+	
+	len = (size - 1) / getpagesize() + 1;
+	g_tslzone.large.size = len;
+	if ((g_tslzone.large.ptr = mmap(NULL, len * getpagesize(), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+		return (NULL);
+	return (g_tslzone.large.ptr);
 }

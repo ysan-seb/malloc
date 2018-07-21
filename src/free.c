@@ -12,7 +12,10 @@
 
 #include "malloc.h"
 
-void	free(void *ptr)
+void free(void *ptr)
 {
-	(void)ptr;
+	int ret;
+
+	// ret = munmap(ptr, g_zone.size * getpagesize());
+	munmap(ptr, g_zone.size);
 }

@@ -13,43 +13,46 @@
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# define TINY 256
-# define SMALL 512
+# define TINY 1024
+# define SMALL 2048
 
 # include <sys/mman.h>
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef struct			s_block
-{
-	int					*ptr;
-	size_t				size;
-	int					free;
-	struct s_block		*next;
-}						t_block;
+// typedef struct			s_block
+// {
+// 	int					*ptr;
+// 	int 				free;
+// 	size_t				size;
+// 	struct s_block		*next;
+// }						t_block;
 
-typedef struct			s_zone
-{
-	int					*ptr;
-	size_t				size;
-	t_block				block;
-	struct s_zone		*next;
-}						t_zone;
+// typedef struct			s_zone
+// {
+// 	int					*ptr;
+// 	size_t				size;
+// 	t_block				block;
+// 	struct s_zone		*next;
+// }						t_zone;
 
-typedef struct			s_lzone
-{
-	int					*ptr;
-	size_t				size;
-	int					free;
-	struct s_lzone		*next;
-}						t_lzone;
+// typedef struct			s_tslzone
+// {
+// 	t_zone				tiny;
+// 	t_zone				small;
+// 	t_zone				large;
+// }						t_tslzone;
 
-typedef struct			s_tslzone
+// t_tslzone				g_tslzone;
+
+typedef struct		s_zone
 {
-	t_zone				tiny;
-	t_zone				small;
-	t_lzone				large;
-}						t_tslzone;
+	int				free;
+	size_t			size;
+	struct s_zone 	*next;
+}					t_zone;
+
+t_zone				g_zone;
 
 void					free(void *ptr);
 void					*malloc(size_t size);
