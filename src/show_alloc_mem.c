@@ -1,17 +1,19 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   show_alloc_mem.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/14 16:19:08 by ysan-seb          #+#    #+#             */
-/*   Updated: 2018/07/14 16:19:14 by ysan-seb         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// #include "ft_malloc.h"
 
-#include "malloc.h"
+// void		show_alloc_mem(void)
+// {
+// 	int		i;
+// 	t_zone *zone;
 
-void	show_alloc_mem(void)
-{
-}
+// 	i = 0;
+// 	zone = g_zone;
+// 	printf("LARGE:\n");
+// 	if (!zone)
+// 		printf("Empty\n");
+// 	while (zone)
+// 	{
+// 		printf("[%d] %p\n", i, zone);
+// 		zone = zone->next;
+// 		i++;
+// 	}
+// }

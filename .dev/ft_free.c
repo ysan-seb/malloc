@@ -1,18 +1,18 @@
-#include "malloc.h"
+#include "ft_malloc.h"
 
-void		free(void *ptr)
+void		ft_free(void *ptr)
 {
 	t_zone	*tmp;
 	t_zone	*zone;
 
-	write(1, "FREE\n", 5);
+
 	if (!(zone = g_zone))
 		return;
 	if (zone->ptr == ptr)
 	{
 		tmp = zone->next;
 		if ((munmap(zone, ((zone->size - 1) + sizeof(t_zone) / getpagesize() + 1) * getpagesize())) == -1)
-			;// write("[0] Free error\n");
+			printf("[0] Free error\n");
 		g_zone = tmp;
 	}
 	else
@@ -23,7 +23,7 @@ void		free(void *ptr)
 			{
 				tmp = zone->next->next;
 				if ((munmap(zone->next, ((zone->next->size - 1) + sizeof(t_zone) / getpagesize() + 1) * getpagesize())) == -1)
-					;// printf("[1] Free error\n");
+					printf("[1] Free error\n");
 				zone->next = tmp;
 			}
 			zone = (zone->next) ? zone->next : zone;

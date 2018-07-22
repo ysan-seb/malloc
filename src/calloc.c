@@ -1,13 +1,13 @@
 #include "malloc.h"
 
-void		*malloc(size_t size)
+void    *calloc(size_t nmemb, size_t size)
 {
 	int		len;
 	void	*ptr;
 	t_zone	*zone;
 
-	write(1, "MALLOC\n", 7);
-	len = ((size - 1) + sizeof(t_zone)) / getpagesize() + 1;
+	write(1, "CALLOC\n", 7);
+	len = ((size * nmemb - 1) + sizeof(t_zone)) / getpagesize() + 1;
 	zone = g_zone;
 	if (!zone)
 	{
@@ -15,7 +15,7 @@ void		*malloc(size_t size)
 			| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 			return (NULL);
 		g_zone->ptr = g_zone + sizeof(t_zone);
-		g_zone->size = size;
+		g_zone->size = size * nmemb;
 		g_zone->next = NULL;
 		return (g_zone->ptr);
 	}
@@ -29,7 +29,7 @@ void		*malloc(size_t size)
 		zone->next = ptr;
 		zone = zone->next;
 		zone->ptr = zone + sizeof(t_zone);
-		zone->size = size;
+		zone->size = size * nmemb;
 		zone->next = NULL;
 		return (zone->ptr);
 	}

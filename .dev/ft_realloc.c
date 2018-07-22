@@ -1,4 +1,4 @@
-#include "malloc.h"
+#include "ft_malloc.h"
 
 void copy_block(t_zone *src , t_zone *dst)
 {
@@ -17,7 +17,7 @@ void copy_block(t_zone *src , t_zone *dst)
 	}
 }
 
-int     need_space(size_t size1, size_t size2)
+int     ft_need_space(size_t size1, size_t size2)
 {
     size_t origin;
     size_t asked;
@@ -30,19 +30,18 @@ int     need_space(size_t size1, size_t size2)
         return (1);
 }
 
-void    *realloc(void *ptr, size_t size)
+void    *ft_realloc(void *ptr, size_t size)
 {
 	size_t	len;
     t_zone	*tmp;
 	t_zone	*zone;
 	t_zone	*new_zone;
 
-	write(1, "REALLOC\n", 8);
 	if (!(zone = g_zone))
 		return (NULL);
 	if (zone->ptr == ptr)
 	{
-        if (need_space(zone->size, size))
+        if (ft_need_space(zone->size, size))
 		{
 			tmp = zone->next;
 			len = ((zone->size + size - 1) + sizeof(t_zone)) / getpagesize() + 1;
@@ -72,7 +71,7 @@ void    *realloc(void *ptr, size_t size)
 		{
 			if (zone->next->ptr == ptr)
 			{
-                if (need_space(zone->size, size))
+                if (ft_need_space(zone->size, size))
                 {
 					tmp = zone->next->next;
 					len = ((zone->size + size - 1) + sizeof(t_zone)) / getpagesize() + 1;
