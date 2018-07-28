@@ -2,35 +2,49 @@
 
 void		*malloc(size_t size)
 {
-	int		len;
 	void	*ptr;
-	t_zone	*zone;
+	size_t	len;
+	t_zone 	*zone;
+	int 	pagesize;
 
-	write(1, "MALLOC\n", 7);
-	len = ((size - 1) + sizeof(t_zone)) / getpagesize() + 1;
 	zone = g_zone;
+	pagesize = getpagesize();
+	len = (size + sizeof(t_zone) - 1) / pagesize + 1;
+	write(1, "MALLOC  : ", 10);
+	ft_putstr("\e[1;38;5;4m");
+	ft_putnbr(size);
+	ft_putstr("\e[1;38;5;9m");
+	ft_putnbr(len);
+	ft_putstr("\e[0m");	
+	if (size == 0)
+		return (NULL);
 	if (!zone)
 	{
-		if ((g_zone = mmap(NULL, len * getpagesize(), PROT_READ
-			| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+		if ((zone = mmap(NULL, len * pagesize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 			return (NULL);
-		g_zone->ptr = g_zone + sizeof(t_zone);
-		g_zone->size = size;
-		g_zone->next = NULL;
-		return (g_zone->ptr);
-	}
+		zone->size = size;
+		zone->free = 0;
+		zone->ptr = zone + sizeof(t_zone);
+		zone->next = NULL;
+		g_zone = zone;
+		ft_putptr(zone->ptr);
+		write(1, " DONE\n", 6);
+		return (zone->ptr);
+	} 
 	else
 	{
-		if ((ptr = mmap(NULL, len * getpagesize(), PROT_READ
-			| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+		if ((ptr = mmap(NULL, len * pagesize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 			return (NULL);
 		while (zone->next)
 			zone = zone->next;
 		zone->next = ptr;
 		zone = zone->next;
-		zone->ptr = zone + sizeof(t_zone);
 		zone->size = size;
+		zone->free = 0;
+		zone->ptr = zone + sizeof(t_zone);
 		zone->next = NULL;
+		ft_putptr(zone->ptr);
+		write(1, " DONE\n", 6);
 		return (zone->ptr);
 	}
 }

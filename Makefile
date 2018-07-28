@@ -52,12 +52,12 @@ RM = rm -rf
 all	: $(NAME)
 
 $(NAME):$(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) -shared $(OBJS) $(HEADER)
+	$(CC) $(FLAGS) -g -o $(NAME) -shared $(OBJS) $(HEADER)
 	rm -f $(LN)
 	ln -s $@ $(LN)
 
 %.o: %.c inc/malloc.h
-	gcc $(FLAGS) -c -o $@ -c $< -I./inc 
+	gcc $(FLAGS) -g -c -o $@ -c $< -I./inc 
 
 
 #$(NAME): $(SRC)

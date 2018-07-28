@@ -1,19 +1,14 @@
-// #include "ft_malloc.h"
+#include "malloc.h"
 
-// void		show_alloc_mem(void)
-// {
-// 	int		i;
-// 	t_zone *zone;
+void		show_alloc_mem(void)
+{
+    t_zone *zone;
 
-// 	i = 0;
-// 	zone = g_zone;
-// 	printf("LARGE:\n");
-// 	if (!zone)
-// 		printf("Empty\n");
-// 	while (zone)
-// 	{
-// 		printf("[%d] %p\n", i, zone);
-// 		zone = zone->next;
-// 		i++;
-// 	}
-// }
+    zone = g_zone;
+    while (zone)
+    {
+        ft_putptr(zone->ptr);
+        ft_putchar('\n');
+        zone = zone->next;
+    }
+}

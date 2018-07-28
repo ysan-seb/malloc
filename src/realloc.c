@@ -1,99 +1,61 @@
 #include "malloc.h"
 
-void copy_block(t_zone *src , t_zone *dst)
-{
-	int *sdata ,* ddata;
-	size_t i;
-
-	i = 0;
-	sdata = src->ptr;
-	ddata = dst->ptr;
-	// for (i=0; i*4<src->size && i*4<dst->size; i++)
-	// 	ddata[i] = sdata[i];
-	while(i * 4 < src->size && i * 4 < dst->size)
-	{
-		ddata[i] = sdata[i];
-		i++;
-	}
-}
-
 int     need_space(size_t size1, size_t size2)
 {
     size_t origin;
     size_t asked;
     
-	origin = ((size1 - 1) + sizeof(t_zone)) / getpagesize() + 1;
-    asked = ((size1 + size2 - 1) + sizeof(t_zone)) / getpagesize() + 1;
+	origin = (size1 - 1 + sizeof(t_zone)) / getpagesize() + 1;
+    asked = (size2 - 1 + sizeof(t_zone)) / getpagesize() + 1;
     if (origin == asked || origin > asked)
         return (0);
     else
         return (1);
 }
 
+static int	check_pointer(void *ptr)
+{
+	t_zone *zone;
+
+	zone = g_zone;
+	if (!zone)
+		return (0);
+	else
+	{
+		while (zone)
+		{
+			if (zone->ptr == ptr)
+				return (1);
+			zone = zone->next;
+		}
+	}
+	return (0);
+}
+
 void    *realloc(void *ptr, size_t size)
 {
-	size_t	len;
-    t_zone	*tmp;
-	t_zone	*zone;
-	t_zone	*new_zone;
+	void	*new_zone;
 
-	write(1, "REALLOC\n", 8);
-	if (!(zone = g_zone))
-		return (NULL);
-	if (zone->ptr == ptr)
+	write(1, "REALLOC : ", 10);
+	ft_putptr(ptr);
+	if (!ptr && size > 0)
 	{
-        if (need_space(zone->size, size))
-		{
-			tmp = zone->next;
-			len = ((zone->size + size - 1) + sizeof(t_zone)) / getpagesize() + 1;
-			if ((new_zone = mmap(NULL, len * getpagesize(), PROT_READ
-			| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
-			{
-				printf("Realloc error\n");
-				return (NULL);
-			}
-			new_zone->ptr = new_zone + 32;
-			new_zone->size = zone->size + size;
-			copy_block(zone , new_zone);
-            //ft_memcpy(new_zone + 32, zone + 32, size);
-			// if ((munmap(zone, ((zone->size - 1) + sizeof(t_zone) / getpagesize() + 1) * getpagesize())) == -1)
-			// 	printf("[0] Free error\n");
-			new_zone->next = tmp;
-			g_zone = new_zone;
-			return (new_zone->ptr);
-		}
-        else
-		
-            return(zone->ptr);
+		write(1, " -> ", 4);
+		return (malloc(size));
+	}
+	if (!check_pointer(ptr))
+	{
+		write(1, "unknown pointer\n", 16);
+		return (NULL);
 	}
 	else
 	{
-		while(zone->next)
-		{
-			if (zone->next->ptr == ptr)
-			{
-                if (need_space(zone->size, size))
-                {
-					tmp = zone->next->next;
-					len = ((zone->size + size - 1) + sizeof(t_zone)) / getpagesize() + 1;
-					if ((new_zone = mmap(NULL, len * getpagesize(), PROT_READ
-					| PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
-						return (NULL);
-					zone->next = new_zone;
-					new_zone->next = tmp;
-					new_zone->size = zone->size + size;
-					copy_block(zone , new_zone);
-					// if ((munmap(zone, ((zone->size - 1) + sizeof(t_zone) / getpagesize() + 1) * getpagesize())) == -1)
-					// 	printf("[0] Free error\n");
-					new_zone->ptr = new_zone + sizeof(t_zone);
-					return (new_zone->ptr);
-				}
-                else
-                    return (zone->next->ptr);
-				zone->next = tmp;
-			}
-			zone = (zone->next) ? zone->next : zone;
-		}
+		if (!(new_zone = malloc(size)))
+			return (NULL);
+		memcpy(new_zone, ptr, size);
+		ft_putstr(new_zone);
+		return (new_zone);
 	}
-    return (NULL);
+	write(1, " DONE\n", 6);
+	return (NULL);
 }
