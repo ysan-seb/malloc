@@ -70,12 +70,11 @@ void		*malloc(size_t size)
 	{
 		ft_putnbr(len * pagesize);
 		ft_putchar('\n');
-		if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+		if ((zone = mmap(0, len * pagesize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 			return (NULL);
-		zone = ptr;
 		zone->size = size;
 		zone->free = 0;
-		zone->ptr = ptr + sizeof(t_zone);
+		zone->ptr = zone + sizeof(t_zone);
 		zone->next = NULL;
 		g_zone = zone;
 		ft_putptr(zone->ptr);
@@ -92,7 +91,7 @@ void		*malloc(size_t size)
 		zone = zone->next;
 		zone->size = size;
 		zone->free = 0;
-		zone->ptr = ptr + sizeof(t_zone);
+		zone->ptr = zone + sizeof(t_zone);
 		zone->next = NULL;
 		ft_putptr(zone->ptr);
 		write(1, " DONE\n", 6);
@@ -128,19 +127,19 @@ void		*malloc(size_t size)
 // 	return (zone->ptr);
 // }
 
-// int		main(void)
-// {
-// 	int i = 0;
-// 	int j = 0;
-// 	void *ptr1;
-// 	void *ptr2;
+int		main(void)
+{
+	int i = 0;
+	int j = 0;
+	void *ptr1;
+	void *ptr2;
 
-// 	while (i < 2) {
-// 		ptr1 = malloc(3312);
-// 		memset(ptr1, 'A', 3312);
-// 		ft_putstr(ptr1);
-// 		free(ptr1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	while (i < 2) {
+		ptr1 = malloc(16);
+		memset(ptr1, 'A', 4095);
+		ft_putstr(ptr1);
+		free(ptr1);
+		i++;
+	}
+	return (0);
+}

@@ -31,26 +31,25 @@ static int	check_pointer(void *ptr)
 	}
 	return (0);
 }
+// void	*calloc(size_t count, size_t size) {
+// 	int i;
+// 	void *ptr;
 
-void	*calloc(size_t count, size_t size) {
-	int i;
-	void *ptr;
+// 	i = 0;
+// 	write(1, "CALLOC -> ", 10);
+// 	if (!count || !size)
+// 	{
+// 		ptr = malloc(16);
+// 		memset(ptr, 0, 16);
+// 	}
+// 	else
+// 	{
+// 		ptr = malloc(count * size);
+// 		memset(ptr, 0, size);
+// 	}
+// 	return (ptr);
 
-	i = 0;
-	write(1, "CALLOC -> ", 10);
-	if (!count || !size)
-	{
-		ptr = malloc(16);
-		memset(ptr, 0, 16);
-	}
-	else
-	{
-		ptr = malloc(count * size);
-		memset(ptr, 0, size);
-	}
-	return (ptr);
-
-}
+// }
 
 void    *realloc(void *ptr, size_t size)
 {
@@ -72,10 +71,10 @@ void    *realloc(void *ptr, size_t size)
 	}
 	else
 	{
-		write(1, " -> ", 4);
+		write(1, "PTR PTR\n", 8);
 		if (!(new_zone = malloc(size)))
 			return (NULL);
-		// memcpy(new_zone, ptr, size );
+		memcpy(new_zone, ptr, size);
 		free(ptr);
 		return (new_zone);
 	}
