@@ -56,20 +56,20 @@ void		*malloc(size_t size)
 	// 	ft_putchar('\n');
 	// 	return (NULL);
 	// }
-	write(1, "MALLOC  : ", 10);
-	ft_putstr("\e[1;38;5;4m");
-	ft_putnbr(size);
-	ft_putstr("\e[1;38;5;9m");
-	ft_putnbr(len);
-	ft_putstr("\e[0m");	
+	// write(1, "MALLOC  : ", 10);
+	// ft_putstr("\e[1;38;5;4m");
+	// ft_putnbr(size);
+	// ft_putstr("\e[1;38;5;9m");
+	// ft_putnbr(len);
+	// ft_putstr("\e[0m");	
 	if (size == 0)
 		return (malloc(16));
 	// else
 	// 	return (alloc(size, len, pagesize));
 	if (!zone)
 	{
-		ft_putnbr(len * pagesize);
-		ft_putchar('\n');
+		// ft_putnbr(len * pagesize);
+		// ft_putchar('\n');
 		if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 			return (NULL);
 		zone = ptr;
@@ -78,8 +78,8 @@ void		*malloc(size_t size)
 		zone->ptr = ptr + sizeof(t_zone);
 		zone->next = NULL;
 		g_zone = zone;
-		ft_putptr(zone->ptr);
-		write(1, " DONE\n", 6);
+		// ft_putptr(zone->ptr);
+		// write(1, " DONE\n", 6);
 		return (zone->ptr);
 	} 
 	else
@@ -94,8 +94,8 @@ void		*malloc(size_t size)
 		zone->free = 0;
 		zone->ptr = ptr + sizeof(t_zone);
 		zone->next = NULL;
-		ft_putptr(zone->ptr);
-		write(1, " DONE\n", 6);
+		// ft_putptr(zone->ptr);
+		// write(1, " DONE\n", 6);
 		return (zone->ptr);
 	}
 }

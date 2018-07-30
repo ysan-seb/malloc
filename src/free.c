@@ -113,27 +113,27 @@ void		free(void *ptr)
 
 	zone = g_zone;
 	pagesize = getpagesize();
-	write(1, "FREE    : ", 10);
-	ft_putptr(ptr);	
+	// write(1, "FREE    : ", 10);
+	// ft_putptr(ptr);	
 	if (!ptr)
 	{
-		write(1, "\n", 1);
+		// write(1, "\n", 1);
 		return;
 	}
 	if (!check_pointer(ptr))
 	{
-		write(1, " UNKNOWN\n", 10);
+		// write(1, " UNKNOWN\n", 10);
 		return;
 	}
 	if (zone->ptr == ptr)
 	{
 		g_zone = zone->next;
 		len = (zone->size + sizeof(t_zone) - 1) / pagesize + 1;		
-		ft_putstr("\e[1;38;5;9m");
-		ft_putnbr(zone->size);
-		ft_putstr("\e[1;38;5;4m");
-		ft_putnbr(len);
-		ft_putstr("\e[0m");
+		// ft_putstr("\e[1;38;5;9m");
+		// ft_putnbr(zone->size);
+		// ft_putstr("\e[1;38;5;4m");
+		// ft_putnbr(len);
+		// ft_putstr("\e[0m");
 		if ((munmap(zone, len * pagesize)) == -1)
 			perror("error: ");// write(1, "Free Error\n", 11);
 	}
@@ -145,11 +145,11 @@ void		free(void *ptr)
 			{
 				tmp = zone->next->next;
 				len = (zone->next->size + sizeof(t_zone) - 1) / pagesize + 1;
-				ft_putstr("\e[1;38;5;9m");
-				ft_putnbr(zone->next->size);
-				ft_putstr("\e[1;38;5;4m");
-				ft_putnbr(len);
-				ft_putstr("\e[0m");
+				// ft_putstr("\e[1;38;5;9m");
+				// ft_putnbr(zone->next->size);
+				// ft_putstr("\e[1;38;5;4m");
+				// ft_putnbr(len);
+				// ft_putstr("\e[0m");
 				if ((munmap(zone->next, len * pagesize)) == -1)
 					perror("error: ");// write(1, "Free Error\n", 11);
 				zone->next = tmp;
@@ -158,6 +158,6 @@ void		free(void *ptr)
 			zone = zone->next;
 		}
 	}
-	write(1, " DONE\n", 7);
+	// write(1, " DONE\n", 7);
 	// show_alloc_mem();
 }
