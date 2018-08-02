@@ -23,10 +23,17 @@ LN = libft_malloc.so
 SRC_PATH = src/
 
 SRCS =	$(addprefix $(SRC_PATH), \
-		free.c \
 		malloc.c \
+		malloc_tiny.c \
+		malloc_small.c \
+		malloc_large.c \
+		free.c \
+		free_tiny.c \
+		free_small.c \
+		free_large.c \
 		realloc.c \
 		show_alloc_mem.c \
+		lib.c \
 		)
 
 #SRCS = $(SRC_PATH)main.c \
@@ -39,7 +46,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -O2 -fPIC -g
+# FLAGS = -Wall -Werror -Wextra -O2 -fPIC -g -Wpadded
 
 DEBUG = -g -fsanatize=address
 
@@ -57,7 +64,7 @@ $(NAME):$(OBJS)
 	ln -s $@ $(LN)
 
 %.o: %.c inc/malloc.h
-	gcc $(FLAGS) -g -c -o $@ -c $< -I./inc 
+	gcc $(FLAGS) -g -c -o $@ -c $< $(HEADER)
 
 
 #$(NAME): $(SRC)
