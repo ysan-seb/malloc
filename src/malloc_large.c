@@ -1,7 +1,5 @@
 #include "malloc.h"
 
-int i = 0;
-
 static t_zone   *create_large_zone(size_t size)
 {
         void	*ptr;
@@ -20,7 +18,6 @@ static t_zone   *create_large_zone(size_t size)
 		zone->ptr = ptr + sizeof(t_zone);
 		zone->next = NULL;
 		g_zones.large = zone;
-        i += len;
         // ft_putptr(zone->ptr);
         // ft_putchar('\n');
 		return (zone->ptr);
@@ -45,7 +42,6 @@ static t_zone   *create_large_zone_next(size_t size, t_zone *zone)
         zone->free = 0;
         zone->ptr = ptr + sizeof(t_zone);
         zone->next = NULL;
-        i += len;
         // ft_putptr(zone->ptr);
         // ft_putchar('\n');
         return (zone->ptr);
@@ -58,7 +54,7 @@ void		*malloc_large(size_t size)
     // ft_putstr("\e[1;38;5;1m");
 	// write(1,"LMALLOC ", 8);
     // ft_putstr("\e[0m");
-    // ft_putnbr(i);
+    // // ft_putnbr(i);
     // ft_putchar('\n');
 	zone = g_zones.large;
 	if (size == 0)

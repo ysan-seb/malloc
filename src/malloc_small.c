@@ -65,18 +65,18 @@
 
 #include "malloc.h"
 
-// static size_t       get_zone_size(size_t size, char arg)
-// {
-//     static size_t zone_size;
+int i = 0;
 
-//     if (!zone_size)
-//         zone_size = size;
-//     if (arg == '+')
-//         zone_size += size;
-//     else if (arg == '-')
-//         zone_size -= size;
-//     return (zone_size);
-// }
+static size_t       get_zone_size(size_t size, char arg)
+{
+    static int zone_size;
+
+    if (arg == '+')
+        zone_size += size;
+    else if (arg == '-' && zone_size - size > 0)
+        zone_size -= size;
+    return (zone_size);
+}
 // static t_zone   *create_tiny_zone(size_t size)
 // {
 //         void	*ptr;
@@ -109,7 +109,6 @@ static t_zone   *create_small_zone(size_t size)
         t_zone 	*zone;
         int 	pagesize;
 
-        write(1, "2\n", 2);
     	pagesize = getpagesize();
     	len = ((100 * SMALL + 100 * sizeof(t_zone)) - 1) / pagesize + 1;
 		if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE,
@@ -121,19 +120,21 @@ static t_zone   *create_small_zone(size_t size)
 		zone->ptr = ptr + sizeof(t_zone);
 		zone->next = NULL;
 		g_zones.small = zone;
+        i += len;
         get_zone_size(len * pagesize, '+');
-        // get_zone_size(size + sizeof(t_zone), '-');
+        get_zone_size(size + sizeof(t_zone), '-');
         // ft_putptr(zone->ptr);
         // ft_putchar('\n');
 		return (zone->ptr);
 }
 
-static t_zone   *create_tiny_zone_next(size_t size, t_zone *zone)
+static t_zone   *create_small_zone_next(size_t size, t_zone *zone)
 {
         void	*ptr;
         size_t	len;
         int 	pagesize;
 
+        i++;
     	pagesize = getpagesize();
     	len = (size + sizeof(t_zone) - 1) / pagesize + 1;
         if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE
@@ -147,7 +148,8 @@ static t_zone   *create_tiny_zone_next(size_t size, t_zone *zone)
         zone->free = 0;
         zone->ptr = ptr + sizeof(t_zone);
         zone->next = NULL;
-        get_zone_size((len *pagesize) + (size + sizeof(t_zone)), '+');
+        get_zone_size(len *pagesize, '+');
+        get_zone_size(size + sizeof(t_zone), '-');
         return (zone->ptr);
 }
 
@@ -166,7 +168,7 @@ void        *fill_small_zone(size_t size)
         zone->ptr = ptr + sizeof(t_zone);
         zone->size = size;
         zone->next = NULL;
-        // get_zone_size(size + sizeof(t_zone), '-');
+        get_zone_size(size + sizeof(t_zone), '-');
         // ft_putptr(zone->ptr);
         // ft_putchar('\n');
         return (zone->ptr);
@@ -177,28 +179,32 @@ void        *fill_small_zone(size_t size)
 
 void		*malloc_small(size_t size)
 {
-    static int i;
+    int zonesize;
 	t_zone 	*zone;
 
-    i += size + sizeof(t_zone);
-    // ft_putstr("\e[1;38;5;2m");
-	// write(1,"TMALLOC ", 8);
-    // ft_putstr("\e[1;38;5;4m");
-    // ft_putnbr(get_zone_size(0, 0));
+    zonesize = get_zone_size(0, 0);
+    // ft_putstr("\e[1;38;5;3m");
+	// write(1,"SMALLOC ", 8);
+    // // ft_putstr("\e[1;38;5;4m");
+    // // ft_putnbr(get_zone_size(0, 0));
     // ft_putchar('\n');
     // ft_putchar(' ');
-    // ft_putstr("\e[0m");
+    ft_putstr("\e[0m");
 	zone = g_zones.small;
 
+    // ft_putnbr(i);
+    // ft_putchar('\n');
 	if (size == 0)
 		return (malloc(16));
 	if (!zone)
         return (create_small_zone(size));
 	else
     {
-        if ((get_zone_size(0, 0) + size + sizeof(t_zone)) < get_zone_size(0, 0))
+        int newsize = size + sizeof(t_zone);
+        if ((zonesize - newsize) > 0)
             return (fill_small_zone(size));
         else
-            return (create_tiny_zone_next(size, zone));
+            return (create_small_zone_next(size, zone));
     }
+    return (NULL);
 }

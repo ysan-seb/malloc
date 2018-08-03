@@ -8,12 +8,14 @@ static size_t		align(size_t size)
 void		*malloc(size_t size)
 {
 	size = align(size);
+	// ft_putnbr(size);
+	// ft_putchar('\n');
 	if (size == 0)
 		return (malloc(16));
 	if (size < TINY)
-        	return (malloc_tiny(size));
+        return (malloc_tiny(size));
 	else if (size > TINY && size < SMALL)
-        	return (malloc_small(size));
+        return (malloc_small(size));
 	else
 		return (malloc_large(size));
 }

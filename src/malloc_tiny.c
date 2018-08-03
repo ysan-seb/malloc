@@ -1,6 +1,6 @@
 #include "malloc.h"
 
-size_t       get_zone_size(size_t size, char arg)
+static size_t       get_zone_size(size_t size, char arg)
 {
     static size_t zone_size;
 
@@ -8,8 +8,8 @@ size_t       get_zone_size(size_t size, char arg)
         zone_size = size;
     if (arg == '+')
         zone_size += size;
-    // else if (arg == '-')
-    //     zone_size -= size;
+    else if (arg == '-')
+        zone_size -= size;
     return (zone_size);
 }
 // static t_zone   *create_tiny_zone(size_t size)
@@ -44,7 +44,6 @@ static t_zone   *create_tiny_zone(size_t size)
         t_zone 	*zone;
         int 	pagesize;
 
-        write(1, "1\n", 2);
     	pagesize = getpagesize();
     	len = ((100 * TINY + 100 * sizeof(t_zone)) - 1) / pagesize + 1;
 		if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE,
@@ -118,11 +117,11 @@ void		*malloc_tiny(size_t size)
     i += size + sizeof(t_zone);
     // ft_putstr("\e[1;38;5;2m");
 	// write(1,"TMALLOC ", 8);
-    // ft_putstr("\e[1;38;5;4m");
-    // ft_putnbr(get_zone_size(0, 0));
-    // ft_putchar(' ');
+    // // ft_putstr("\e[1;38;5;4m");
+    // // ft_putnbr(get_zone_size(0, 0));
+    // // ft_putchar(' ');
     // ft_putstr("\e[0m");
-    // ft_putnbr(get_zone_size(0, 0));
+    // // ft_putnbr(get_zone_size(0, 0));
     // ft_putchar('\n');
 	zone = g_zones.tiny;
 	if (size == 0)
