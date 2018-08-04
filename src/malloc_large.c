@@ -52,7 +52,7 @@ void		*malloc_large(size_t size)
 	t_zone 	*zone;
 
     // ft_putstr("\e[1;38;5;1m");
-	// write(1,"LMALLOC ", 8);
+	// write(1,"MALLOC ", 8);
     // ft_putstr("\e[0m");
     // // ft_putnbr(i);
     // ft_putchar('\n');

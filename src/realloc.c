@@ -120,7 +120,7 @@ void    *realloc(void *ptr, size_t size)
 		return (malloc(size));
 	if (!get_ptr_in_tiny_zone(ptr))
 	{
-		write(1, " UNKNOWN\n", 9);
+		// write(1, " UNKNOWN\n", 9);
 		return (NULL);
 	}
 	else

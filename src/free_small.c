@@ -14,22 +14,24 @@ void		free_small(t_zone *zone, void *ptr)
 		// if ((munmap(zone, len * pagesize)) == -1)
 		// 	perror("error: ");// write(1, "Free Error\n", 11);
 				zone->free = 1;
+                // bzero(zone->ptr, zone->size);
+
 	}
 	else
 	{
 		while (zone->next)
 		{
-			if (zone->next->ptr == ptr)
+			zone = zone->next;
+			if (zone->ptr == ptr)
 			{
-				zone->next->free = 1;
+				zone->free = 1;
+                // bzero(zone->ptr, zone->size);
 				// tmp = zone->next->next;
 				// len = (zone->next->size + sizeof(t_zone) - 1) / pagesize + 1;
 				// if ((munmap(zone->next, len * pagesize)) == -1)
 				// 	perror("error: ");// write(1, "Free Error\n", 11);
 				// zone->next = tmp;
-				break;
 			}
-			zone = zone->next;
 		}
 	}
 }

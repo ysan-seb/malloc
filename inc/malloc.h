@@ -7,7 +7,7 @@
 # define NEXT 		4
 # define LAST 		5
 
-# define TINY		512
+# define TINY		  128
 # define SMALL		2048
 
 #include <sys/mman.h>

@@ -47,6 +47,7 @@ OBJS = $(SRCS:.c=.o)
 CC = gcc
 
 # FLAGS = -Wall -Werror -Wextra -O2 -fPIC -g -Wpadded
+FLAGS = -g
 
 DEBUG = -g -fsanatize=address
 
