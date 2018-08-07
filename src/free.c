@@ -21,18 +21,24 @@ static t_zone	*get_ptr_in_large_zone(void *ptr)
 
 static t_zone	*get_ptr_in_small_zone(void *ptr)
 {
-	t_zone  *zone;
+	t_zone  *map;
+	t_zone	*zone;
 
-	zone = g_zones.small;
-	if (!zone)
+	map = g_zones.small;
+	if (!map)
 		return (get_ptr_in_large_zone(ptr));
 	else
 	{
-		while (zone)
+		while (map)
 		{
-			if (zone->ptr == ptr)
-				return (zone);
-			zone = zone->next;
+			zone = map->ptr;
+			while (zone) 
+			{
+				if (zone->ptr == ptr)
+					return (zone);
+				zone = zone->next;
+			}
+			map = map->next;
 		}
 	}
 	return (get_ptr_in_large_zone(ptr));
