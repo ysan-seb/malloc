@@ -18,8 +18,8 @@ static t_zone   *create_large_zone(size_t size)
 		zone->ptr = ptr + sizeof(t_zone);
 		zone->next = NULL;
 		g_zones.large = zone;
-        // ft_putptr(zone->ptr);
-        // ft_putchar('\n');
+        (debug) ? ft_putptr(zone->ptr) : 0;
+        (debug) ? ft_putchar('\n') : 0;
 		return (zone->ptr);
 }
 
@@ -42,8 +42,8 @@ static t_zone   *create_large_zone_next(size_t size, t_zone *zone)
         zone->free = 0;
         zone->ptr = ptr + sizeof(t_zone);
         zone->next = NULL;
-        // ft_putptr(zone->ptr);
-        // ft_putchar('\n');
+        (debug) ? ft_putptr(zone->ptr) : 0;
+        (debug) ? ft_putchar('\n') : 0;
         return (zone->ptr);
 }
 
@@ -51,9 +51,9 @@ void		*malloc_large(size_t size)
 {
 	t_zone 	*zone;
 
-    // ft_putstr("\e[1;38;5;1m");
-	// write(1,"MALLOC ", 8);
-    // ft_putstr("\e[0m");
+    (debug) ? ft_putstr("\e[1;38;5;1m") : 0;
+	(debug) ? write(1,"MALLOC  ", 9) : 0;
+    (debug) ? ft_putstr("\e[0m") : 0;
     // // ft_putnbr(i);
     // ft_putchar('\n');
 	zone = g_zones.large;

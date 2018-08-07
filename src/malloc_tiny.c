@@ -1,25 +1,11 @@
 #include "malloc.h"
 
-int j = 0;
-
-static size_t       get_zone_size(size_t size, char arg)
-{
-    static int zone_size;
-
-    if (arg == '+')
-        zone_size += size;
-    else if (arg == '-' && zone_size - size > 0)
-        zone_size -= size;
-    else if (arg == 's')
-        zone_size = size;
-    return (zone_size);
-}
-
 static t_zone   *create_tiny_zone(size_t size)
 {
         void	*ptr;
         size_t	len;
-        t_zone 	*zone;
+        t_zone 	*map;
+        t_zone  *zone;
         int 	pagesize;
 
         // write(1, " Create new\n", 13);
@@ -28,45 +14,49 @@ static t_zone   *create_tiny_zone(size_t size)
 		if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE,
         MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 			return (NULL);
-		zone = ptr;
-		zone->size = size;
-		zone->free = 0;
-		zone->ptr = ptr + sizeof(t_zone);
-		zone->next = NULL;
-		g_zones.tiny = zone;
-        j += len;
-        get_zone_size(len * pagesize, '+');
-        get_zone_size(size + sizeof(t_zone), '-');
-        // ft_putptr(zone->ptr);
-        // ft_putchar('\n');
+		map = ptr;
+		map->size = len * pagesize;
+		map->free = map->size - (size + (sizeof(t_zone) * 2));
+		map->ptr = (void*)map + sizeof(t_zone);
+		map->next = NULL;
+        zone =  map->ptr;
+        zone->ptr = (void*)map->ptr + sizeof(t_zone);
+        zone->size = size;
+        zone->free = 0;
+        zone->next = NULL; 
+		g_zones.tiny = (void*)map;
+        (debug) ? ft_putptr(zone->ptr) : 0;
+        (debug) ? ft_putchar('\n') : 0;
 		return (zone->ptr);
 }
 
-static t_zone   *create_tiny_zone_next(size_t size, t_zone *zone)
+static t_zone   *create_tiny_zone_next(size_t size, t_zone *map)
 {
         void	*ptr;
         size_t	len;
+        t_zone  *zone;
         int 	pagesize;
-
-        j++;
         // write(1, " Create next\n", 14);
     	pagesize = getpagesize();
     	len = (size + sizeof(t_zone) - 1) / pagesize + 1;
         if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE
         ,MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
             return (NULL);
-        while (zone->next)
-            zone = zone->next;
-        zone->next = ptr;
-        zone = zone->next;
+        while (map->next)
+            map = map->next;
+        map->next = ptr;
+        map = map->next;
+        map->ptr = (void*)map + sizeof(t_zone);
+        map->size = len * pagesize;
+        map->free = map->size - (size + (sizeof(t_zone) * 2));
+        map->next = NULL;
+        zone =  (void*)map->ptr;
+        zone->ptr = (void*)map->ptr + sizeof(t_zone);
         zone->size = size;
         zone->free = 0;
-        zone->ptr = ptr + sizeof(t_zone);
-        zone->next = NULL;
-        get_zone_size(len * pagesize, 's');
-        get_zone_size(size + sizeof(t_zone), '-');
-        // ft_putptr(zone->ptr);
-        // ft_putchar('\n');
+        zone->next = NULL; 
+        (debug) ? ft_putptr(zone->ptr) : 0;
+        (debug) ? ft_putchar('\n') : 0;
         return (zone->ptr);
 }
 
@@ -86,9 +76,8 @@ void        *fill_tiny_zone(size_t size)
         zone->ptr = ptr + sizeof(t_zone);
         zone->size = size;
         zone->next = NULL;
-        get_zone_size(size + sizeof(t_zone), '-');
-        // ft_putptr(zone->ptr);
-        // ft_putchar('\n');
+        ft_putptr(zone->ptr);
+        ft_putchar('\n');
         return (zone->ptr);
     }
     return (NULL);
@@ -97,32 +86,31 @@ void        *fill_tiny_zone(size_t size)
 void		*malloc_tiny(size_t size)
 {
     int zonesize;
-	t_zone 	*zone;
+	t_zone 	*map;
 
-    zonesize = get_zone_size(0, 0);
-    // ft_putstr("\e[1;38;5;2m");
-	// write(1,"MALLOC ", 8);
-    // ft_putstr("\e[0m");
-	zone = g_zones.tiny;
+    (debug) ? ft_putstr("\e[1;38;5;2m") : 0 ;
+	(debug) ? write(1,"MALLOC  ", 9) : 0;
+    (debug) ? ft_putstr("\e[0m") : 0;
+	map = g_zones.tiny;
     // ft_putnbr(j);
 	if (size == 0)
 		return (malloc(16));
-	if (!zone)
+	if (!map)
         return (create_tiny_zone(size));
-	else
-    {
-        int newsize = size + sizeof(t_zone);
-    // ft_putnbr(size);
-    // ft_putstr("\e[1;38;5;3m");
-    //     ft_putnbr(newsize);
-    // ft_putstr("\e[0m");
-    // ft_putnbr(zonesize);
+	// else
+    // {
+    //     int newsize = size + sizeof(t_zone);
+    // // ft_putnbr(size);
+    // // ft_putstr("\e[1;38;5;3m");
+    // //     ft_putnbr(newsize);
+    // // ft_putstr("\e[0m");
+    // // ft_putnbr(zonesize);
 
 
-        if ((zonesize - newsize) > 0)
-            return (fill_tiny_zone(size));
+    //     if ((zonesize - newsize) > 0)
+    //         return (fill_tiny_zone(size));
         else
-            return (create_tiny_zone_next(size, zone));
-    }
-    return (NULL);
+            return (create_tiny_zone_next(size, map));
+    // }
+    // return (NULL);
 }

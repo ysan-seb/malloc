@@ -44,6 +44,8 @@ typedef struct		s_zones
 
 t_zones				g_zones;
 
+int debug;
+
 void				ft_free(void *ptr);
 void				*ft_malloc(size_t size);
 void				*calloc(size_t nmemb, size_t size);

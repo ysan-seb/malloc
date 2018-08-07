@@ -88,18 +88,24 @@ static t_zone	*get_ptr_in_small_zone(void *ptr)
 
 static t_zone	*get_ptr_in_tiny_zone(void *ptr)
 {
-	t_zone  *zone;
+	t_zone  *map;
+	t_zone	*zone;
 
-	zone = g_zones.tiny;
-	if (!zone)
+	map = g_zones.tiny;
+	if (!map)
 		return (get_ptr_in_small_zone(ptr));
 	else
 	{
-		while (zone)
+		while (map)
 		{
-			if (zone->ptr == ptr)
-				return (zone);
-			zone = zone->next;
+			zone = map->ptr;
+			while (zone) 
+			{
+				if (zone->ptr == ptr)
+					return (zone);
+				zone = zone->next;
+			}
+			map = map->next;
 		}
 	}
 	return (get_ptr_in_small_zone(ptr));
@@ -111,9 +117,11 @@ void    *realloc(void *ptr, size_t size)
 	t_zone *data;
 	void	*new_zone;
 
-	// write(1, "REALLOC ", 8);
-	// ft_putptr(ptr);
-	// ft_putchar('\n');
+    (debug) ? ft_putstr("\e[1;38;5;6m") : 0;
+	(debug) ? write(1, "REALLOC  ", 8) : 0;
+    (debug) ? ft_putstr("\e[0m") : 0;
+	(debug) ? ft_putptr(ptr) : 0;
+	(debug) ? ft_putchar('\n') : 0;
 	if (size == 0)
 		return (realloc(ptr, 16));
 	if (!ptr && size > 0)
