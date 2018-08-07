@@ -1,18 +1,10 @@
 #include "malloc.h"
 
-// static int     need_space(size_t size1, size_t size2)
-// {
-//     size_t origin;
-//     size_t asked;
-    
-// 	origin = (size1 - 1 + sizeof(t_zone)) / getpagesize() + 1;
-//     asked = (size2 - 1 + sizeof(t_zone)) / getpagesize() + 1;
-//     if (origin == asked || origin > asked)
-//         return (0);
-//     else
-//         return (1);
-// }
-
+ void 	*valloc(size_t size)
+ {
+	 write(1, "VALLOC\n", 7);
+	 return (NULL);
+ }
 
 void	*calloc(size_t count, size_t size) {
 	int i;
@@ -33,91 +25,6 @@ void	*calloc(size_t count, size_t size) {
 
 }
 
-void copy_block(t_zone *src , t_zone *dst)
-{
-	unsigned char *sdata ,* ddata;
-	size_t i;
-
-	i = 0;
-	sdata = src->ptr;
-	ddata = dst->ptr;
-	while(i * 4 < src->size && i * 4 < dst->size)
-	{
-		ddata[i] = sdata[i];
-		i++;
-	}
-}
-
-static t_zone	*get_ptr_in_large_zone(void *ptr)
-{
-	t_zone  *zone;
-
-	zone = g_zones.large;
-	if (!zone)
-		return (NULL);
-	else
-	{
-		while (zone)
-		{
-			if (zone->ptr == ptr)
-				return (zone);
-			zone = zone->next;
-		}
-	}
-	return (NULL);
-}
-
-static t_zone	*get_ptr_in_small_zone(void *ptr)
-{
-	t_zone  *map;
-	t_zone	*zone;
-
-	map = g_zones.small;
-	if (!map)
-		return (get_ptr_in_large_zone(ptr));
-	else
-	{
-		while (map)
-		{
-			zone = map->ptr;
-			while (zone) 
-			{
-				if (zone->ptr == ptr)
-					return (zone);
-				zone = zone->next;
-			}
-			map = map->next;
-		}
-	}
-	return (get_ptr_in_large_zone(ptr));
-}
-
-static t_zone	*get_ptr_in_tiny_zone(void *ptr)
-{
-	t_zone  *map;
-	t_zone	*zone;
-
-	map = g_zones.tiny;
-	if (!map)
-		return (get_ptr_in_small_zone(ptr));
-	else
-	{
-		while (map)
-		{
-			zone = map->ptr;
-			while (zone) 
-			{
-				if (zone->ptr == ptr)
-					return (zone);
-				zone = zone->next;
-			}
-			map = map->next;
-		}
-	}
-	return (get_ptr_in_small_zone(ptr));
-}
-
-
 void    *realloc(void *ptr, size_t size)
 {
 	t_zone *data;
@@ -125,27 +32,23 @@ void    *realloc(void *ptr, size_t size)
 
     (debug) ? ft_putstr("\e[1;38;5;6m") : 0;
 	(debug) ? write(1, "REALLOC  ", 8) : 0;
+	(debug) ? ft_putnbr(size) : 0;
     (debug) ? ft_putstr("\e[0m") : 0;
 	(debug) ? ft_putptr(ptr) : 0;
 	(debug) ? ft_putchar('\n') : 0;
-	if (size == 0)
-		return (realloc(ptr, 16));
-	if (!ptr && size > 0)
+	// if (size == 0)
+	// 	return (realloc(ptr, 16));
+	if (!ptr)
 		return (malloc(size));
-	if (!get_ptr_in_tiny_zone(ptr))
-	{
-		// write(1, " UNKNOWN\n", 9);
+	else if (ptr && size == 0)
+		free(ptr);
+	else if (!(data = get_ptr(ptr)))
 		return (NULL);
-	}
 	else
 	{
 		if (!(new_zone = malloc(size)))
 			return (NULL);
-			
-		if (!(data = get_ptr_in_tiny_zone(ptr)))
-			memcpy(new_zone, ptr, size);
-		else
-			memcpy(new_zone, ptr, data->size);
+		memcpy(new_zone, ptr, data->size);
 		free(ptr);
 		return (new_zone);
 	}

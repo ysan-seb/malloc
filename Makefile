@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ysan-seb <ysan-seb@student.42.fr>          +#+  +:+       +#+         #
+#    By: yann <yann@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 07:19:36 by ysan-seb          #+#    #+#              #
-#    Updated: 2018/07/14 16:23:39 by ysan-seb         ###   ########.fr        #
+#    Updated: 2018/08/07 21:54:35 by yann             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS =	$(addprefix $(SRC_PATH), \
 		free_small.c \
 		free_large.c \
 		realloc.c \
+		get_ptr.c \
 		show_alloc_mem.c \
 		lib.c \
 		)

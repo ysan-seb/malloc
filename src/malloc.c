@@ -8,7 +8,7 @@ static size_t		align(size_t size)
 void		*malloc(size_t size)
 {
 
-        debug = 0;
+    debug = 0;
 
 	size = align(size);
 	// ft_putnbr(size);

@@ -46,11 +46,13 @@ t_zones				g_zones;
 
 int debug;
 
-void				ft_free(void *ptr);
-void				*ft_malloc(size_t size);
+void				free(void *ptr);
+void				*malloc(size_t size);
 void				*calloc(size_t nmemb, size_t size);
-void				*ft_realloc(void *ptr, size_t size);
+void				*realloc(void *ptr, size_t size);
 void				show_alloc_mem(void);
+
+void       *valloc(size_t size);
 
 int					ft_strlen(char *str);
 void				ft_putchar(char c);
@@ -58,7 +60,9 @@ void				ft_putstr(char *str);
 void				ft_putnbr(int n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				ft_putptr(void *ptr);
+void	      *ft_memset(void *b, int c, size_t len);
 
+t_zone      *get_ptr(void *ptr);
 void				*malloc_tiny(size_t size);
 void				*malloc_small(size_t size);
 void				*malloc_large(size_t size);
