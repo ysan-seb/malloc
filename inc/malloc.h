@@ -1,39 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/08 11:50:58 by yann              #+#    #+#             */
+/*   Updated: 2018/08/08 12:18:24 by yann             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# define FIRST		1
-# define PREV 		2
-# define CURRENT 	3
-# define NEXT 		4
-# define LAST 		5
-
-# define TINY		  128
+# define TINY		128
 # define SMALL		2048
 
 #include <sys/mman.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <string.h>
-#include <stdio.h>
-
 typedef struct		s_zone
 {
-	void			*ptr;  // first ptr large zone else ptr block after metadata
-	size_t			size; // size for large else size by block
-	size_t			free; // freespace large else free status
+	void			*ptr;
+	size_t			size;
+	size_t			free;
 	struct s_zone	*next;
 }					t_zone;
-
-// typedef struct		s_zone
-// {
-// 	void			*align;
-// 	void			*ptr; // first ptr tiny small zone
-// 	size_t			size; // zone size
-// 	size_t			free; // zone freespace
-// 	t_block			*block; // tiny & small block
-// 	struct s_zone	*next;
-// }					t_zone;
 
 typedef struct		s_zones
 {
@@ -48,11 +41,8 @@ int debug;
 
 void				free(void *ptr);
 void				*malloc(size_t size);
-void				*calloc(size_t nmemb, size_t size);
 void				*realloc(void *ptr, size_t size);
 void				show_alloc_mem(void);
-
-void       *valloc(size_t size);
 
 int					ft_strlen(char *str);
 void				ft_putchar(char c);
@@ -60,14 +50,14 @@ void				ft_putstr(char *str);
 void				ft_putnbr(int n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				ft_putptr(void *ptr);
-void	      *ft_memset(void *b, int c, size_t len);
+void				*ft_memset(void *b, int c, size_t len);
 
-t_zone      *get_ptr(void *ptr);
+t_zone				*get_ptr(void *ptr);
 void				*malloc_tiny(size_t size);
 void				*malloc_small(size_t size);
 void				*malloc_large(size_t size);
-void				free_tiny(t_zone *zone, void *ptr);
-void				free_small(t_zone *zone, void *ptr);
+void				free_tiny(t_zone *zone);
+void				free_small(t_zone *zone);
 void				free_large(t_zone *zone, void *ptr);
 
 #endif

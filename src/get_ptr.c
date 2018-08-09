@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_ptr.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/08 11:47:44 by yann              #+#    #+#             */
+/*   Updated: 2018/08/08 11:47:44 by yann             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 
 static t_zone	*get_ptr_in_large_zone(void *ptr)
 {
-	t_zone  *zone;
+	t_zone	*zone;
 
 	zone = g_zones.large;
 	if (!zone)
@@ -21,7 +33,7 @@ static t_zone	*get_ptr_in_large_zone(void *ptr)
 
 static t_zone	*get_ptr_in_small_zone(void *ptr)
 {
-	t_zone  *map;
+	t_zone	*map;
 	t_zone	*zone;
 
 	map = g_zones.small;
@@ -31,6 +43,8 @@ static t_zone	*get_ptr_in_small_zone(void *ptr)
 	{
 		while (map)
 		{
+			if (!map || !map->ptr)
+				return (get_ptr_in_large_zone(ptr));
 			zone = map->ptr;
 			while (zone) 
 			{
@@ -46,7 +60,7 @@ static t_zone	*get_ptr_in_small_zone(void *ptr)
 
 static t_zone	*get_ptr_in_tiny_zone(void *ptr)
 {
-	t_zone  *map;
+	t_zone	*map;
 	t_zone	*zone;
 
 	map = g_zones.tiny;
@@ -56,8 +70,6 @@ static t_zone	*get_ptr_in_tiny_zone(void *ptr)
 	{
 		while (map)
 		{
-            // if (!map || !map->ptr)
-            //     return (get_ptr_in_small_zone(ptr));
 			zone = map->ptr;
 			while (zone) 
 			{
@@ -71,7 +83,7 @@ static t_zone	*get_ptr_in_tiny_zone(void *ptr)
 	return (get_ptr_in_small_zone(ptr));
 }
 
-t_zone              *get_ptr(void *ptr)
+t_zone			*get_ptr(void *ptr)
 {
     return (get_ptr_in_tiny_zone(ptr));
 }
