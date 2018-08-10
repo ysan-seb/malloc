@@ -6,7 +6,7 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:47:44 by yann              #+#    #+#             */
-/*   Updated: 2018/08/08 11:47:44 by yann             ###   ########.fr       */
+/*   Updated: 2018/08/10 21:52:17 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_zone	*get_ptr_in_small_zone(void *ptr)
 			if (!map || !map->ptr)
 				return (get_ptr_in_large_zone(ptr));
 			zone = map->ptr;
-			while (zone) 
+			while (zone)
 			{
 				if (zone->ptr == ptr)
 					return (zone);
@@ -71,7 +71,7 @@ static t_zone	*get_ptr_in_tiny_zone(void *ptr)
 		while (map)
 		{
 			zone = map->ptr;
-			while (zone) 
+			while (zone)
 			{
 				if (zone->ptr == ptr)
 					return (zone);
@@ -85,5 +85,5 @@ static t_zone	*get_ptr_in_tiny_zone(void *ptr)
 
 t_zone			*get_ptr(void *ptr)
 {
-    return (get_ptr_in_tiny_zone(ptr));
+	return (get_ptr_in_tiny_zone(ptr));
 }

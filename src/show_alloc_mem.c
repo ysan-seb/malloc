@@ -6,16 +6,16 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:50:50 by yann              #+#    #+#             */
-/*   Updated: 2018/08/09 10:42:06 by yann             ###   ########.fr       */
+/*   Updated: 2018/08/10 22:02:32 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-int		nb_len_base(int value, int base)
+int					nb_len_base(int value, int base)
 {
-	int len;
-	double pow;
+	int		len;
+	double	pow;
 
 	len = 0;
 	pow = 1;
@@ -27,13 +27,13 @@ int		nb_len_base(int value, int base)
 	return (len + 1);
 }
 
-void    ft_itoa_base(int value, int base)
+void				ft_itoa_base(int value, int base)
 {
-	char s[13];
-	int len;
+	char	s[13];
+	int		len;
 
 	if (base < 2 || base > 16)
-		return;
+		return ;
 	len = nb_len_base(value, base);
 	s[len] = '\0';
 	if (value < 0 && base == 10)
@@ -47,13 +47,14 @@ void    ft_itoa_base(int value, int base)
 	}
 	while (value)
 	{
-		s[--len] = (value % base > 9) ? value % base - 10 + 'A' : value % base + '0';
+		s[--len] = (value % base > 9) ? value % base - 10 + 'A'
+			: value % base + '0';
 		value /= base;
 	}
 	ft_putstr(s);
 }
 
-void        print_alloc_mem(t_zone *zone)
+void				print_alloc_mem(t_zone *zone)
 {
 	ft_putstr("0x");
 	ft_itoa_base((int)zone->ptr, 16);
@@ -65,9 +66,9 @@ void        print_alloc_mem(t_zone *zone)
 	ft_putstr(" octets\n");
 }
 
-static void        show_map(t_zone *map, char *zone_type)
+static void			show_map(t_zone *map, char *zone_type)
 {
-	t_zone  *zone;
+	t_zone	*zone;
 
 	if (!map)
 		return ;
@@ -87,7 +88,7 @@ static void        show_map(t_zone *map, char *zone_type)
 	}
 }
 
-static void        show_zone(t_zone *zone, char *zone_type)
+static void			show_zone(t_zone *zone, char *zone_type)
 {
 	if (!zone)
 		return ;
@@ -101,7 +102,8 @@ static void        show_zone(t_zone *zone, char *zone_type)
 		zone = zone->next;
 	}
 }
-void		show_alloc_mem(void)
+
+void				show_alloc_mem(void)
 {
 	t_zone *tiny;
 	t_zone *small;

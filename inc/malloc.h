@@ -6,7 +6,7 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:50:58 by yann              #+#    #+#             */
-/*   Updated: 2018/08/08 12:18:24 by yann             ###   ########.fr       */
+/*   Updated: 2018/08/10 22:09:26 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # define TINY		128
 # define SMALL		2048
 
-#include <sys/mman.h>
-#include <stdlib.h>
-#include <unistd.h>
+# include <sys/mman.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef struct		s_zone
 {
@@ -36,8 +36,6 @@ typedef struct		s_zones
 }					t_zones;
 
 t_zones				g_zones;
-
-int debug;
 
 void				free(void *ptr);
 void				*malloc(size_t size);
@@ -61,21 +59,3 @@ void				free_small(t_zone *zone);
 void				free_large(t_zone *zone, void *ptr);
 
 #endif
-
-
-
-/*
-   TINY
-   {[m][d] -> [m][d] -> [m][d] -> [m][d] -> [][][][][][][][][]} -> next
-
-   SMALL
-   {[m][d] -> [m][d] -> [m][d] -> [m][d] -> [][][][][][][][][]} -> next
-
-   LARGE
-   {[m][d]} -> next
-
-
-   {[][][][]} zone ptr free_space next
-   [] block ptr size free next
-
- */

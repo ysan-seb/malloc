@@ -6,23 +6,23 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:49:05 by yann              #+#    #+#             */
-/*   Updated: 2018/08/08 12:42:56 by yann             ###   ########.fr       */
+/*   Updated: 2018/08/10 21:39:02 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static t_zone		*create_small_zone(size_t size)
+static t_zone			*create_small_zone(size_t size)
 {
 	void	*ptr;
 	size_t	len;
-	t_zone 	*map;
-	t_zone  *zone;
-	int 	pagesize;
+	t_zone	*map;
+	t_zone	*zone;
+	int		pagesize;
 
 	pagesize = getpagesize();
 	len = ((100 * SMALL + 100 * sizeof(t_zone)) + sizeof(t_zone) - 1)
-	/ pagesize + 1;
+		/ pagesize + 1;
 	if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE,
 					MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 		return (NULL);
@@ -31,26 +31,27 @@ static t_zone		*create_small_zone(size_t size)
 	map->free = map->size - (size + (sizeof(t_zone) * 2));
 	map->ptr = (void*)map + sizeof(t_zone);
 	map->next = NULL;
-	zone =  map->ptr;
+	zone = map->ptr;
 	zone->ptr = (void*)map->ptr + sizeof(t_zone);
 	zone->size = size;
 	zone->free = 0;
-	zone->next = NULL; 
+	zone->next = NULL;
 	g_zones.small = (void*)map;
 	return (zone->ptr);
 }
 
-static t_zone		*create_small_zone_next(size_t size, t_zone *map)
+static t_zone			*create_small_zone_next(size_t size, t_zone *map)
 {
 	void	*ptr;
 	size_t	len;
-	t_zone  *zone;
-	int 	pagesize;
+	t_zone	*zone;
+	int		pagesize;
+
 	pagesize = getpagesize();
 	len = ((100 * SMALL + 100 * sizeof(t_zone)) + sizeof(t_zone) - 1)
-	/ pagesize + 1;
-	if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE
-					,MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+		/ pagesize + 1;
+	if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE,
+					MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	while (map->next)
 		map = map->next;
@@ -60,11 +61,11 @@ static t_zone		*create_small_zone_next(size_t size, t_zone *map)
 	map->size = len * pagesize;
 	map->free = map->size - (size + (sizeof(t_zone) * 2));
 	map->next = NULL;
-	zone =  (void*)map->ptr;
+	zone = (void*)map->ptr;
 	zone->ptr = (void*)map->ptr + sizeof(t_zone);
 	zone->size = size;
 	zone->free = 0;
-	zone->next = NULL; 
+	zone->next = NULL;
 	return (zone->ptr);
 }
 
@@ -96,16 +97,16 @@ static void				*fill_small_free(size_t size)
 
 static void				*fill_small_zone(size_t size)
 {
-	t_zone  *map;
-	t_zone  *zone;
-	map = g_zones.small;
+	t_zone	*map;
+	t_zone	*zone;
 
+	map = g_zones.small;
 	while (map)
 	{
 		zone = map->ptr;
 		if ((size + sizeof(t_zone)) <= map->free)
 		{
-			while(zone->next)
+			while (zone->next)
 				zone = zone->next;
 			zone->next = (void*)zone->ptr + zone->size;
 			zone = zone->next;
@@ -121,10 +122,10 @@ static void				*fill_small_zone(size_t size)
 	return (NULL);
 }
 
-void				*malloc_small(size_t size)
+void					*malloc_small(size_t size)
 {
-	t_zone 	*map;
-	void    *ptr;
+	t_zone	*map;
+	void	*ptr;
 
 	map = g_zones.small;
 	if (size == 0)

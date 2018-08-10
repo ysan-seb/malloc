@@ -6,7 +6,7 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:50:43 by yann              #+#    #+#             */
-/*   Updated: 2018/08/08 12:41:47 by yann             ###   ########.fr       */
+/*   Updated: 2018/08/10 21:41:10 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void			*malloc(size_t size)
 	if (size == 0)
 		return (malloc(16));
 	if (size < TINY)
-			return (malloc_tiny(size));
+		return (malloc_tiny(size));
 	else if (size > TINY && size < SMALL)
-			return (malloc_small(size));
+		return (malloc_small(size));
 	else
 		return (malloc_large(size));
 }
-

@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lib.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/10 21:52:26 by ysan-seb          #+#    #+#             */
+/*   Updated: 2018/08/10 22:07:53 by ysan-seb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
+{
+	write(1, str, ft_strlen(str));
+}
 
 void	*ft_memset(void *b, int c, size_t len)
 {
@@ -24,17 +46,6 @@ int		ft_strlen(char *str)
 		i++;
 	return (i);
 }
-
-void	ft_putstr(char *str)
-{
-	write(1, str, ft_strlen(str));
-}
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
 
 void	ft_putnbr(int n)
 {
@@ -72,29 +83,4 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		i++;
 	}
 	return (dest);
-}
-
-void		ft_putptr(void *ptr)
-{
-	size_t	n;
-	size_t	i;
-	char	c;
-	int		color;
-
-	n = (size_t)ptr;
-	color = 0;
-	write(1, "0x", 2);
-	i = 1L << 60;
-	while (i)
-	{
-		c = n / i > 9 ? n / i + 'A' - 10 : n / i + '0';
-		n = n - n / i * i;
-		if (c > '0')
-			color = 1;
-		if (color == 1)
-			ft_putstr("\e[1;38;5;4m");
-		write(1, &c, 1);
-		i /= 16;
-	}
-	ft_putstr("\e[0m");
 }

@@ -6,7 +6,7 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:48:41 by yann              #+#    #+#             */
-/*   Updated: 2018/08/08 11:48:52 by yann             ###   ########.fr       */
+/*   Updated: 2018/08/10 21:40:10 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static t_zone	*create_large_zone(size_t size)
 {
 	void	*ptr;
 	size_t	len;
-	t_zone 	*zone;
-	int 	pagesize;
+	t_zone	*zone;
+	int		pagesize;
 
 	pagesize = getpagesize();
 	len = (size + sizeof(t_zone) - 1) / pagesize + 1;
@@ -37,12 +37,12 @@ static t_zone	*create_large_zone_next(size_t size, t_zone *zone)
 {
 	void	*ptr;
 	size_t	len;
-	int 	pagesize;
+	int		pagesize;
 
 	pagesize = getpagesize();
 	len = (size + sizeof(t_zone) - 1) / pagesize + 1;
-	if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE
-					,MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
+	if ((ptr = mmap(0, len * pagesize, PROT_READ | PROT_WRITE,
+					MAP_PRIVATE | MAP_ANONYMOUS, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	while (zone->next)
 		zone = zone->next;
