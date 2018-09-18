@@ -11,18 +11,6 @@
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include "string.h"
-
-void			*calloc(size_t count, size_t size)
-{
-	void	*ptr;
-
-	if ((count * size) == 0)
-		return (malloc(0));
-	ptr = malloc(count * size);
-	ft_memset(ptr, 0, count * size);
-	return (ptr);
-}
 
 static size_t	align(size_t size)
 {

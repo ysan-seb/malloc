@@ -6,7 +6,7 @@
 #    By: yann <yann@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 07:19:36 by ysan-seb          #+#    #+#              #
-#    Updated: 2018/09/18 16:12:25 by ysan-seb         ###   ########.fr        #
+#    Updated: 2018/09/18 16:19:12 by ysan-seb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS =	$(SRC_PATH)malloc.c \
 		$(SRC_PATH)free_small.c \
 		$(SRC_PATH)free_large.c \
 		$(SRC_PATH)realloc.c \
+		$(SRC_PATH)calloc.c \
 		$(SRC_PATH)get_ptr.c \
 		$(LIB_PATH)ft_memcpy.c \
 		$(LIB_PATH)ft_memset.c \
