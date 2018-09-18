@@ -6,7 +6,7 @@
 #    By: yann <yann@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 07:19:36 by ysan-seb          #+#    #+#              #
-#    Updated: 2018/08/07 21:54:35 by yann             ###   ########.fr        #
+#    Updated: 2018/09/18 16:12:25 by ysan-seb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,20 +22,26 @@ LN = libft_malloc.so
 
 SRC_PATH = src/
 
-SRCS =	$(addprefix $(SRC_PATH), \
-		malloc.c \
-		malloc_tiny.c \
-		malloc_small.c \
-		malloc_large.c \
-		free.c \
-		free_tiny.c \
-		free_small.c \
-		free_large.c \
-		realloc.c \
-		get_ptr.c \
-		show_alloc_mem.c \
-		lib.c \
-		)
+LIB_PATH = lib/
+
+SRCS =	$(SRC_PATH)malloc.c \
+		$(SRC_PATH)malloc_tiny.c \
+		$(SRC_PATH)malloc_small.c \
+		$(SRC_PATH)malloc_large.c \
+		$(SRC_PATH)free.c \
+		$(SRC_PATH)free_tiny.c \
+		$(SRC_PATH)free_small.c \
+		$(SRC_PATH)free_large.c \
+		$(SRC_PATH)realloc.c \
+		$(SRC_PATH)get_ptr.c \
+		$(LIB_PATH)ft_memcpy.c \
+		$(LIB_PATH)ft_memset.c \
+		$(LIB_PATH)ft_putchar.c \
+		$(LIB_PATH)ft_putstr.c \
+		$(LIB_PATH)ft_strlen.c \
+		$(LIB_PATH)ft_putnbr.c \
+		$(LIB_PATH)ft_itoa_base.c \
+		
 
 #SRCS = $(SRC_PATH)main.c \
 #	   $(SRC_PATH)free.c \

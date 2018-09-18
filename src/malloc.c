@@ -6,11 +6,23 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:50:43 by yann              #+#    #+#             */
-/*   Updated: 2018/08/10 21:41:10 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2018/09/18 15:48:00 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include "string.h"
+
+void			*calloc(size_t count, size_t size)
+{
+	void	*ptr;
+
+	if ((count * size) == 0)
+		return (malloc(0));
+	ptr = malloc(count * size);
+	ft_memset(ptr, 0, count * size);
+	return (ptr);
+}
 
 static size_t	align(size_t size)
 {

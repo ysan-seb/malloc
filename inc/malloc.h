@@ -41,6 +41,13 @@ void				free(void *ptr);
 void				*malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
 void				show_alloc_mem(void);
+t_zone				*get_ptr(void *ptr);
+void				*malloc_tiny(size_t size);
+void				*malloc_small(size_t size);
+void				*malloc_large(size_t size);
+void				free_tiny(t_zone *zone);
+void				free_small(t_zone *zone);
+void				free_large(t_zone *zone, void *ptr);
 
 int					ft_strlen(char *str);
 void				ft_putchar(char c);
@@ -49,13 +56,6 @@ void				ft_putnbr(int n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				ft_putptr(void *ptr);
 void				*ft_memset(void *b, int c, size_t len);
-
-t_zone				*get_ptr(void *ptr);
-void				*malloc_tiny(size_t size);
-void				*malloc_small(size_t size);
-void				*malloc_large(size_t size);
-void				free_tiny(t_zone *zone);
-void				free_small(t_zone *zone);
-void				free_large(t_zone *zone, void *ptr);
+void				ft_itoa_base(int value, int base);
 
 #endif

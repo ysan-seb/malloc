@@ -6,7 +6,7 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:45:36 by yann              #+#    #+#             */
-/*   Updated: 2018/08/10 21:50:06 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2018/08/14 12:15:21 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		*realloc(void *ptr, size_t size)
 	{
 		if (!(new_ptr = malloc(size)))
 			return (NULL);
-		ft_memcpy(new_ptr, ptr, data->size);
+		ft_memcpy(new_ptr, ptr, (data->size < size) ? data->size : size);
 		free(ptr);
 		return (new_ptr);
 	}

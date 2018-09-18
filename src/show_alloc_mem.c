@@ -6,53 +6,11 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:50:50 by yann              #+#    #+#             */
-/*   Updated: 2018/08/10 22:02:32 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2018/09/18 15:48:32 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-int					nb_len_base(int value, int base)
-{
-	int		len;
-	double	pow;
-
-	len = 0;
-	pow = 1;
-	if (value < 0 && base == 10)
-		len++;
-	(value < 0) ? value = -value : 0;
-	while (value >= (pow *= base))
-		len++;
-	return (len + 1);
-}
-
-void				ft_itoa_base(int value, int base)
-{
-	char	s[13];
-	int		len;
-
-	if (base < 2 || base > 16)
-		return ;
-	len = nb_len_base(value, base);
-	s[len] = '\0';
-	if (value < 0 && base == 10)
-		s[0] = '-';
-	(value < 0) ? value = -value : 0;
-	if (value == 0)
-	{
-		s[0] = '0';
-		s[1] = '\0';
-		ft_putstr(s);
-	}
-	while (value)
-	{
-		s[--len] = (value % base > 9) ? value % base - 10 + 'A'
-			: value % base + '0';
-		value /= base;
-	}
-	ft_putstr(s);
-}
 
 void				print_alloc_mem(t_zone *zone)
 {
