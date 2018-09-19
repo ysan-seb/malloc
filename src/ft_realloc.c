@@ -3,23 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 18:18:18 by ysan-seb          #+#    #+#             */
-/*   Updated: 2018/09/19 19:00:50 by ysan-seb         ###   ########.fr       */
+/*   Created: 2018/08/08 11:45:36 by yann              #+#    #+#             */
+/*   Updated: 2018/09/19 19:03:27 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		*realloc(void *ptr, size_t size)
+void		*ft_realloc(void *ptr, size_t size)
 {
+	t_zone	*data;
 	void	*new_ptr;
 
-	if (pthread_mutex_lock(&g_lock) != 0)
+	if (!ptr)
+		return (ft_malloc(size));
+	else if (ptr && size == 0)
+		ft_free(ptr);
+	else if (!(data = get_ptr(ptr)))
 		return (NULL);
-	new_ptr = ft_realloc(ptr, size);
-	if (pthread_mutex_unlock(&g_lock) != 0)
-		return (NULL);
-	return (new_ptr);
+	else
+	{
+		if (!(new_ptr = ft_malloc(size)))
+			return (NULL);
+		ft_memcpy(new_ptr, ptr, (data->size < size) ? data->size : size);
+		ft_free(ptr);
+		return (new_ptr);
+	}
+	return (NULL);
 }

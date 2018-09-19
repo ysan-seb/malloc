@@ -19,6 +19,7 @@
 # include <sys/mman.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <pthread.h>
 
 typedef struct		s_zone
 {
@@ -37,9 +38,16 @@ typedef struct		s_zones
 
 t_zones				g_zones;
 
+pthread_mutex_t g_lock;
+
 void				free(void *ptr);
+void				ft_free(void *ptr);
 void				*malloc(size_t size);
+void				*ft_malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
+void				*ft_realloc(void *ptr, size_t size);
+void				*calloc(size_t count, size_t size);
+void				*ft_calloc(size_t count, size_t size);
 void				show_alloc_mem(void);
 t_zone				*get_ptr(void *ptr);
 void				*malloc_tiny(size_t size);

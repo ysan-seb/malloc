@@ -25,15 +25,20 @@ SRC_PATH = src/
 LIB_PATH = lib/
 
 SRCS =	$(SRC_PATH)malloc.c \
+		$(SRC_PATH)ft_malloc.c \
 		$(SRC_PATH)malloc_tiny.c \
 		$(SRC_PATH)malloc_small.c \
 		$(SRC_PATH)malloc_large.c \
 		$(SRC_PATH)free.c \
+		$(SRC_PATH)ft_free.c \
 		$(SRC_PATH)free_tiny.c \
 		$(SRC_PATH)free_small.c \
 		$(SRC_PATH)free_large.c \
 		$(SRC_PATH)realloc.c \
+		$(SRC_PATH)ft_realloc.c \
 		$(SRC_PATH)calloc.c \
+		$(SRC_PATH)ft_calloc.c \
+		$(SRC_PATH)show_alloc_mem.c \
 		$(SRC_PATH)get_ptr.c \
 		$(LIB_PATH)ft_memcpy.c \
 		$(LIB_PATH)ft_memset.c \
@@ -67,12 +72,12 @@ RM = rm -rf
 all	: $(NAME)
 
 $(NAME):$(OBJS)
-	$(CC) $(FLAGS) -g -o $(NAME) -shared $(OBJS) $(HEADER)
+	$(CC) $(FLAGS) -o $(NAME) -shared  $(OBJS) $(HEADER)
 	rm -f $(LN)
 	ln -s $@ $(LN)
 
 %.o: %.c inc/malloc.h
-	gcc $(FLAGS) -g -c -o $@ -c $< $(HEADER)
+	gcc $(FLAGS) -o $@ -c  $< $(HEADER)
 
 
 #$(NAME): $(SRC)

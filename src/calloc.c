@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/18 16:17:32 by ysan-seb          #+#    #+#             */
-/*   Updated: 2018/09/18 16:17:58 by ysan-seb         ###   ########.fr       */
+/*   Created: 2018/09/19 19:00:24 by ysan-seb          #+#    #+#             */
+/*   Updated: 2018/09/19 19:00:37 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void			*calloc(size_t count, size_t size)
 {
-	void	*ptr;
+	void		*ptr;
 
-	if ((count * size) == 0)
-		return (malloc(0));
-	ptr = malloc(count * size);
-	ft_memset(ptr, 0, count * size);
+	if (pthread_mutex_lock(&g_lock) != 0)
+		return (NULL);
+	ptr = ft_calloc(count, size);
+	if (pthread_mutex_unlock(&g_lock) != 0)
+		return (NULL);
 	return (ptr);
 }

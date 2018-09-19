@@ -3,21 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/19 18:59:58 by ysan-seb          #+#    #+#             */
-/*   Updated: 2018/09/19 19:00:18 by ysan-seb         ###   ########.fr       */
+/*   Created: 2018/08/08 11:47:56 by yann              #+#    #+#             */
+/*   Updated: 2018/08/10 21:29:28 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void		free(void *ptr)
+void		ft_free(void *ptr)
 {
-	if (pthread_mutex_lock(&g_lock) != 0)
+	t_zone *zone;
+
+	if (!ptr)
 		return ;
-	ft_free(ptr);
-	if (pthread_mutex_unlock(&g_lock) != 0)
+	if (!(zone = get_ptr(ptr)))
 		return ;
-	return ;
+	if (zone->size < TINY)
+		free_tiny(zone);
+	else if (zone->size > TINY && zone->size < SMALL)
+		free_small(zone);
+	else
+		free_large(g_zones.large, ptr);
 }
