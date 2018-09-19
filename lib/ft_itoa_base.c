@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-static int			nb_len_base(int value, int base)
+static int			nb_len_base(unsigned long long value, int base)
 {
 	int		len;
 	double	pow;
@@ -27,7 +27,7 @@ static int			nb_len_base(int value, int base)
 	return (len + 1);
 }
 
-void				ft_itoa_base(int value, int base)
+void				ft_itoa_base(unsigned long long value, int base)
 {
 	char	s[13];
 	int		len;
@@ -47,7 +47,7 @@ void				ft_itoa_base(int value, int base)
 	}
 	while (value)
 	{
-		s[--len] = (value % base > 9) ? value % base - 10 + 'A'
+		s[--len] = (value % base > 9) ? value % base - 10 + 'a'
 			: value % base + '0';
 		value /= base;
 	}
