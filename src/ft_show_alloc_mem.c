@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-void				print_alloc_mem(t_zone *zone)
+static void				print_alloc_mem(t_zone *zone)
 {
 	ft_putstr("0x");
 	ft_itoa_base((int)zone->ptr, 16);

@@ -22,9 +22,9 @@ void			*ft_malloc(size_t size)
 	size = align(size);
 	if (size == 0)
 		return (ft_malloc(16));
-	if (size < TINY)
+	if (size <= TINY)
 		return (malloc_tiny(size));
-	else if (size > TINY && size < SMALL)
+	else if (size > TINY && size <= SMALL)
 		return (malloc_small(size));
 	else
 		return (malloc_large(size));

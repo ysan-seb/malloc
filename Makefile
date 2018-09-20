@@ -41,6 +41,8 @@ SRCS =	$(SRC_PATH)malloc.c \
 		$(SRC_PATH)show_alloc_mem.c \
 		$(SRC_PATH)ft_show_alloc_mem.c \
 		$(SRC_PATH)get_ptr.c \
+		$(SRC_PATH)environ.c \
+		$(SRC_PATH)malloc_print.c \
 		$(LIB_PATH)ft_memcpy.c \
 		$(LIB_PATH)ft_memset.c \
 		$(LIB_PATH)ft_putchar.c \
@@ -48,8 +50,8 @@ SRCS =	$(SRC_PATH)malloc.c \
 		$(LIB_PATH)ft_strlen.c \
 		$(LIB_PATH)ft_putnbr.c \
 		$(LIB_PATH)ft_itoa_base.c \
+		$(SRC_PATH)show_graph_mem.c \
 		
-
 #SRCS = $(SRC_PATH)main.c \
 #	   $(SRC_PATH)free.c \
 #	   $(SRC_PATH)malloc.c \
@@ -60,7 +62,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-FLAGS = -Wall -Werror -Wextra -Wpadded
+FLAGS = -Wall -Werror -Wextra
 
 DEBUG = -g -fsanatize=address
 
@@ -73,12 +75,12 @@ RM = rm -rf
 all	: $(NAME)
 
 $(NAME):$(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) -shared  $(OBJS) $(HEADER)
+	$(CC) $(FLAGS) -g -o $(NAME) -shared  $(OBJS) $(HEADER)
 	rm -f $(LN)
 	ln -s $@ $(LN)
 
 %.o: %.c inc/malloc.h
-	gcc $(FLAGS) -o $@ -c  $< $(HEADER)
+	gcc $(FLAGS) -g -o $@ -c  $< $(HEADER)
 
 
 #$(NAME): $(SRC)

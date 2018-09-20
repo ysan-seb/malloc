@@ -14,9 +14,15 @@
 
 void		free(void *ptr)
 {
+	int size;
+
 	if (pthread_mutex_lock(&g_lock) != 0)
 		return ;
-	ft_free(ptr);
+	if (!g_zones.checked)
+		check_var_env();
+	size = ft_free(ptr);
+	if (size > 0 && g_zones.v)
+		malloc_print("FREE", size, ptr);
 	if (pthread_mutex_unlock(&g_lock) != 0)
 		return ;
 	return ;

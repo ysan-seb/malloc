@@ -18,7 +18,10 @@ void		check_first_zone(t_zone *zone)
 	int		pagesize;
 
 	pagesize = getpagesize();
-	g_zones.large = zone->next;
+	if (zone->next)
+		g_zones.large = zone->next;
+	else
+		g_zones.large = NULL;
 	len = (zone->size + sizeof(t_zone) - 1) / pagesize + 1;
 	if ((munmap(zone, len * pagesize)) == -1)
 		write(1, "Free Error\n", 11);
@@ -31,11 +34,11 @@ void		free_large(t_zone *zone, void *ptr)
 	int		pagesize;
 
 	pagesize = getpagesize();
-	if (zone->ptr == ptr)
+	if (zone && zone->ptr == ptr)
 		check_first_zone(zone);
 	else
 	{
-		while (zone->next)
+		while (zone && zone->next)
 		{
 			if (zone->next->ptr == ptr)
 			{

@@ -18,8 +18,12 @@ void			*calloc(size_t count, size_t size)
 
 	if (pthread_mutex_lock(&g_lock) != 0)
 		return (NULL);
+	if (!g_zones.checked)
+		check_var_env();
 	ptr = ft_calloc(count, size);
 	if (pthread_mutex_unlock(&g_lock) != 0)
 		return (NULL);
+	if (g_zones.v)
+		malloc_print("CALLOC", count * size, ptr);
 	return (ptr);
 }

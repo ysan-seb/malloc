@@ -12,18 +12,21 @@
 
 #include "malloc.h"
 
-void		ft_free(void *ptr)
+int		ft_free(void *ptr)
 {
-	t_zone *zone;
+	t_zone	*zone;
+	size_t	size;
 
 	if (!ptr)
-		return ;
+		return (0);
 	if (!(zone = get_ptr(ptr)))
-		return ;
+		return (0);
+	size = zone->size;
 	if (zone->size < TINY)
 		free_tiny(zone);
 	else if (zone->size > TINY && zone->size < SMALL)
 		free_small(zone);
 	else
 		free_large(g_zones.large, ptr);
+	return (size);
 }

@@ -34,6 +34,9 @@ typedef struct		s_zones
 	t_zone			*tiny;
 	t_zone			*small;
 	t_zone			*large;
+	int				checked;
+	int				v;
+	int				v_color;
 }					t_zones;
 
 t_zones				g_zones;
@@ -51,7 +54,7 @@ void				free(void *ptr);
 void				free_tiny(t_zone *zone);
 void				free_small(t_zone *zone);
 void				free_large(t_zone *zone, void *ptr);
-void				ft_free(void *ptr);
+int					ft_free(void *ptr);
 void				*calloc(size_t count, size_t size);
 void				*ft_calloc(size_t count, size_t size);
 void				show_alloc_mem(void);
@@ -66,5 +69,10 @@ void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				ft_putptr(void *ptr);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_itoa_base(unsigned long long value, int base);
+
+void    			show_graph_mem(void);
+void				check_var_env(void);
+void    			malloc_print(char *function, size_t size, void *ptr);
+
 
 #endif
