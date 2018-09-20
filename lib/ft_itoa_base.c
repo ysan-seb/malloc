@@ -6,7 +6,7 @@
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 15:55:33 by ysan-seb          #+#    #+#             */
-/*   Updated: 2018/09/18 16:05:56 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2018/09/20 14:19:42 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ static int			nb_len_base(unsigned long long value, int base)
 
 	len = 0;
 	pow = 1;
-	if (value < 0 && base == 10)
-		len++;
-	(value < 0) ? value = -value : 0;
 	while (value >= (pow *= base))
 		len++;
 	return (len + 1);
@@ -36,9 +33,6 @@ void				ft_itoa_base(unsigned long long value, int base)
 		return ;
 	len = nb_len_base(value, base);
 	s[len] = '\0';
-	if (value < 0 && base == 10)
-		s[0] = '-';
-	(value < 0) ? value = -value : 0;
 	if (value == 0)
 	{
 		s[0] = '0';

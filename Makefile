@@ -39,6 +39,7 @@ SRCS =	$(SRC_PATH)malloc.c \
 		$(SRC_PATH)calloc.c \
 		$(SRC_PATH)ft_calloc.c \
 		$(SRC_PATH)show_alloc_mem.c \
+		$(SRC_PATH)ft_show_alloc_mem.c \
 		$(SRC_PATH)get_ptr.c \
 		$(LIB_PATH)ft_memcpy.c \
 		$(LIB_PATH)ft_memset.c \
