@@ -24,7 +24,7 @@ void			*malloc(size_t size)
 		check_var_env();
 	ptr = ft_malloc(size);
 	if (g_zones.v)
-		malloc_print("MALLOC", size, ptr);
+		malloc_print("MALLOC", align(size), ptr);
 	if (pthread_mutex_unlock(&g_lock) != 0)
 		return (NULL);
 	return (ptr);

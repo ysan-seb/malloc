@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_alloc_mem.c                                   :+:      :+:    :+:   */
+/*   defrag.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/20 14:18:30 by ysan-seb          #+#    #+#             */
-/*   Updated: 2018/09/22 16:49:50 by ysan-seb         ###   ########.fr       */
+/*   Created: 2018/09/22 16:51:45 by ysan-seb          #+#    #+#             */
+/*   Updated: 2018/09/22 16:54:49 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-void	show_alloc_mem(void)
+void		defragmentation(t_zone *map)
 {
-	if (pthread_mutex_lock(&g_lock) != 0)
-		return ;
-	if (!g_zones.checked)
-		check_var_env();
-	ft_show_alloc_mem();
-	if (pthread_mutex_unlock(&g_lock) != 0)
-		return ;
+	t_zone	*zone;
+
+	while (map)
+	{
+		zone = map->ptr;
+		while (zone)
+		{
+			if (zone->free == 1 && zone->next && zone->next->free == 1)
+			{
+				zone->size += sizeof(t_zone) + zone->next->size;
+				zone->next = zone->next->next;
+			}
+			zone = zone->next;
+		}
+		map = map->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: yann <yann@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 11:50:58 by yann              #+#    #+#             */
-/*   Updated: 2018/09/20 14:18:21 by ysan-seb         ###   ########.fr       */
+/*   Updated: 2018/09/24 15:30:57 by ysan-seb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_zones
 	int				checked;
 	int				v;
 	int				v_color;
+	int				s_color;
 }					t_zones;
 
 t_zones				g_zones;
@@ -50,6 +51,8 @@ void				*malloc_large(size_t size);
 void				*ft_malloc(size_t size);
 void				*realloc(void *ptr, size_t size);
 void				*ft_realloc(void *ptr, size_t size);
+void				*reallocf(void *ptr, size_t size);
+void				*ft_reallocf(void *ptr, size_t size);
 void				free(void *ptr);
 void				free_tiny(t_zone *zone);
 void				free_small(t_zone *zone);
@@ -58,8 +61,10 @@ int					ft_free(void *ptr);
 void				*calloc(size_t count, size_t size);
 void				*ft_calloc(size_t count, size_t size);
 void				show_alloc_mem(void);
+int					zones_is_filled(t_zone *zone);
 void				ft_show_alloc_mem(void);
 t_zone				*get_ptr(void *ptr);
+size_t				align(size_t size);
 
 int					ft_strlen(char *str);
 void				ft_putchar(char c);
@@ -69,10 +74,9 @@ void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				ft_putptr(void *ptr);
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_itoa_base(unsigned long long value, int base);
-
-void    			show_graph_mem(void);
+void				show_graph_mem(void);
 void				check_var_env(void);
-void    			malloc_print(char *function, size_t size, void *ptr);
-
+void				malloc_print(char *function, size_t size, void *ptr);
+void				defragmentation(t_zone *zone);
 
 #endif

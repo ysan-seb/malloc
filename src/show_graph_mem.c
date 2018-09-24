@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   show_graph_mem.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysan-seb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 16:44:56 by ysan-seb          #+#    #+#             */
+/*   Updated: 2018/09/22 16:48:02 by ysan-seb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "malloc.h"
 
-static void				print_alloc_mem(t_zone *zone, char type)
+static void		print_alloc_mem(t_zone *zone, char type)
 {
 	if (zone->free == 1)
-        ft_putstr("\e[1;48;5;240m");		
-    else if (type == 'T')
-        ft_putstr("\e[1;38;5;232m\e[42m");
-    else if (type == 'S')
-        ft_putstr("\e[1;38;5;232m\e[43m");
-    else
-	    ft_putstr("\e[1;38;5;232m\e[41m");
+		ft_putstr("\e[1;48;5;240m");
+	else if (type == 'T')
+		ft_putstr("\e[1;38;5;232m\e[42m");
+	else if (type == 'S')
+		ft_putstr("\e[1;38;5;232m\e[43m");
+	else
+		ft_putstr("\e[1;38;5;232m\e[41m");
 	write(1, "|", 1);
 	ft_putnbr(zone->size);
-	ft_putstr("\e[0m");	
+	ft_putstr("\e[0m");
 }
 
-static void			show_map(t_zone *map, char type)
+static void		show_map(t_zone *map, char type)
 {
 	t_zone	*zone;
 
@@ -30,11 +42,11 @@ static void			show_map(t_zone *map, char type)
 			zone = zone->next;
 		}
 		map = map->next;
-		ft_putstr("\e[0m");		
+		ft_putstr("\e[0m");
 	}
 }
 
-static void			show_zone(t_zone *zone, char type)
+static void		show_zone(t_zone *zone, char type)
 {
 	if (!zone)
 		return ;
@@ -46,7 +58,7 @@ static void			show_zone(t_zone *zone, char type)
 	ft_putstr("\e[0m");
 }
 
-static void				ft_show_graph_mem(void)
+static void		ft_show_graph_mem(void)
 {
 	t_zone *tiny;
 	t_zone *small;
@@ -58,10 +70,10 @@ static void				ft_show_graph_mem(void)
 	show_map(tiny, 'T');
 	show_map(small, 'S');
 	show_zone(large, 'L');
+	ft_putchar('\n');
 }
 
-void    show_graph_mem()
+void			show_graph_mem(void)
 {
-	show_alloc_mem();
-    ft_show_graph_mem();
+	ft_show_graph_mem();
 }

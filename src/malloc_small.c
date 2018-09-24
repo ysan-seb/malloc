@@ -85,7 +85,6 @@ static void				*fill_small_free(size_t size)
 			if (zone->free == 1 && zone->size >= size)
 			{
 				zone->free = 0;
-				ft_memset(zone->ptr, 0, zone->size);
 				return (zone->ptr);
 			}
 			zone = zone->next;

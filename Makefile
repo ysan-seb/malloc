@@ -6,7 +6,7 @@
 #    By: yann <yann@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 07:19:36 by ysan-seb          #+#    #+#              #
-#    Updated: 2018/09/18 16:19:12 by ysan-seb         ###   ########.fr        #
+#    Updated: 2018/09/24 15:32:30 by ysan-seb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,19 @@ SRCS =	$(SRC_PATH)malloc.c \
 		$(SRC_PATH)free_large.c \
 		$(SRC_PATH)realloc.c \
 		$(SRC_PATH)ft_realloc.c \
+		$(SRC_PATH)reallocf.c \
+		$(SRC_PATH)ft_reallocf.c \
 		$(SRC_PATH)calloc.c \
 		$(SRC_PATH)ft_calloc.c \
 		$(SRC_PATH)show_alloc_mem.c \
 		$(SRC_PATH)ft_show_alloc_mem.c \
+		$(SRC_PATH)show_graph_mem.c \
+		$(SRC_PATH)defragmentation.c \
 		$(SRC_PATH)get_ptr.c \
 		$(SRC_PATH)environ.c \
 		$(SRC_PATH)malloc_print.c \
+		$(SRC_PATH)zones_is_filled.c \
+		$(SRC_PATH)align.c \
 		$(LIB_PATH)ft_memcpy.c \
 		$(LIB_PATH)ft_memset.c \
 		$(LIB_PATH)ft_putchar.c \
@@ -50,13 +56,6 @@ SRCS =	$(SRC_PATH)malloc.c \
 		$(LIB_PATH)ft_strlen.c \
 		$(LIB_PATH)ft_putnbr.c \
 		$(LIB_PATH)ft_itoa_base.c \
-		$(SRC_PATH)show_graph_mem.c \
-		
-#SRCS = $(SRC_PATH)main.c \
-#	   $(SRC_PATH)free.c \
-#	   $(SRC_PATH)malloc.c \
-#	   $(SRC_PATH)realloc.c \
-#	   $(SRC_PATH)show_alloc_mem.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -81,14 +80,6 @@ $(NAME):$(OBJS)
 
 %.o: %.c inc/malloc.h
 	gcc $(FLAGS) -g -o $@ -c  $< $(HEADER)
-
-
-#$(NAME): $(SRC)
-#	$(CC) $(FLAGS) -o $(NAME) -shared $(OBJS) $(HEADER)
-#	ln -s $@ $(LN)
-
-#%.o: %.c inc/malloc.h
-#	gcc -c $(FLAGS) -o $@ -c $< -I./inc 
 
 clean	:
 	$(RM) $(OBJS)

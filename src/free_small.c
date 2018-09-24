@@ -15,4 +15,5 @@
 void		free_small(t_zone *zone)
 {
 	zone->free = 1;
+	defragmentation(g_zones.small);
 }

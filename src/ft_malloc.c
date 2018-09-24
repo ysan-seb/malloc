@@ -12,11 +12,6 @@
 
 #include "malloc.h"
 
-static size_t	align(size_t size)
-{
-	return ((size % 16 != 0) ? size += 16 - (size % 16) : size);
-}
-
 void			*ft_malloc(size_t size)
 {
 	size = align(size);
